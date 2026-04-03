@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chat with CivicBot — your AI assistant for civic engagement, RTI filing, voting, and government schemes.">
+  <title>AI Chatbot — CivicPulse</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebar-root"></div>
+
+    <main class="main-content">
+
+      <div class="page-header animate-fade-in-up">
+        <h1>🤖 CivicBot — AI Assistant</h1>
+        <p>Ask questions about voting, RTI, government schemes, citizen rights, and civic processes.</p>
+      </div>
+
+      <div class="chat-layout">
+
+        <!-- Chat Window -->
+        <div class="glass-card chat-container no-hover animate-fade-in-up animate-delay-1">
+
+          <!-- Chat Header -->
+          <div class="chat-header">
+            <div class="chat-avatar">🤖</div>
+            <div class="chat-header-info">
+              <h3>CivicBot</h3>
+              <span class="chat-status">Online</span>
+            </div>
+          </div>
+
+          <!-- Messages -->
+          <div class="chat-messages" id="chat-messages">
+            <!-- Messages are injected here by JS -->
+          </div>
+
+          <!-- Typing Indicator -->
+          <div class="typing-indicator" id="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+
+          <!-- Suggestion Chips -->
+          <div class="chat-suggestions" id="chat-suggestions"></div>
+
+          <!-- Input Area -->
+          <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+              <textarea class="chat-input" id="chat-input" placeholder="Ask about civic topics..." rows="1"></textarea>
+              <button class="chat-send-btn" id="chat-send" title="Send">➤</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="chat-sidebar-info animate-fade-in-up animate-delay-2">
+          <div class="glass-card info-card no-hover">
+            <h4>💡 What CivicBot Can Help With</h4>
+            <ul>
+              <li>How to file an RTI application</li>
+              <li>Voting procedures & eligibility</li>
+              <li>Government scheme details</li>
+              <li>Citizen rights & duties</li>
+              <li>Local governance processes</li>
+              <li>Election commission rules</li>
+            </ul>
+          </div>
+          <div class="glass-card info-card no-hover">
+            <h4>⚡ Tips</h4>
+            <p>Be specific with your questions for better answers. Example: "How do I file an RTI in Maharashtra?" instead of just "RTI".</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>

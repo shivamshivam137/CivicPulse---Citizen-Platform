@@ -1,0 +1,137 @@
+/* ── Learning Page Styles ────────────────────────────────────── */
+
+/* Search Bar */
+.learning-search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 14px 20px;
+  margin-bottom: var(--space-lg);
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  stroke: var(--color-text-muted);
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Category Tabs */
+.topic-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.topic-tab {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border: var(--glass-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.topic-tab:hover {
+  color: var(--color-primary);
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.topic-tab.active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* Learning Cards Grid */
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+.learning-card {
+  padding: var(--space-xl);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.learning-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.learning-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.learning-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+}
+
+.learning-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.learning-card p {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  flex: 1;
+}
+
+.learning-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: var(--glass-border);
+}
+
+.read-time {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+  .learning-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 580px) {
+  .learning-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Research candidate profiles — education, assets, criminal records, and manifesto promises.">
+  <title>Candidates — CivicPulse</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/candidates.css">
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebar-root"></div>
+
+    <main class="main-content">
+
+      <div class="page-header animate-fade-in-up">
+        <h1>👥 Candidate Profiles</h1>
+        <p>Research candidates running in your constituency — education, assets, criminal records, and promises.</p>
+        <p style="margin-top: 8px; font-size: 0.85rem; color: var(--color-text-muted);">
+          Source: Candidate affidavits filed with the Election Commission of India. Data curated via <a href="https://myneta.info/" target="_blank" style="color: var(--color-primary); text-decoration: underline;">MyNeta.info / Association for Democratic Reforms</a>.
+        </p>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="candidates-stats animate-fade-in-up animate-delay-1">
+        <div class="glass-card cand-stat no-hover">
+          <span class="stat-val text-gradient" id="stat-total">0</span>
+          <span>Total Candidates</span>
+        </div>
+        <div class="glass-card cand-stat no-hover">
+          <span class="stat-val" style="color:var(--color-success);" id="stat-clean">0</span>
+          <span>Clean Record</span>
+        </div>
+        <div class="glass-card cand-stat no-hover">
+          <span class="stat-val" style="color:var(--color-danger);" id="stat-cases">0</span>
+          <span>Criminal Cases</span>
+        </div>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="candidates-controls animate-fade-in-up animate-delay-2">
+        <div class="candidates-search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="candidate-search" placeholder="Search by name, party, or constituency...">
+        </div>
+        <div class="party-filter">
+          <button class="party-tab active" data-party="all">All</button>
+          <button class="party-tab" data-party="bharatiya janata">BJP</button>
+          <button class="party-tab" data-party="congress">INC</button>
+          <button class="party-tab" data-party="shiv sena (ubt)">SS (UBT)</button>
+          <button class="party-tab" data-party="shiv sena (shinde)">SS (Shinde)</button>
+          <button class="party-tab" data-party="nationalist congress">NCP</button>
+        </div>
+      </div>
+
+      <!-- Candidate Cards Grid -->
+      <div class="candidates-grid" id="candidates-grid">
+        <div class="candidates-empty">
+          <div class="empty-icon">⏳</div>
+          <h3>Loading candidates...</h3>
+        </div>
+      </div>
+
+      <!-- Candidate Detail Modal -->
+      <div class="candidate-modal-overlay" id="candidate-modal">
+        <div class="candidate-modal" id="modal-content">
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/candidates.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - CivicPulse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/profile.css">
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+</head>
+
+<body data-theme="dark">
+
+  <div class="app-layout">
+    <!-- Sidebar injected by global.js -->
+    <div id="sidebar-root"></div>
+
+    <!-- Main Content Layout -->
+    <main class="main-layout">
+
+      <!-- Top Header -->
+      <header class="page-header">
+        <div class="header-content">
+          <h1>My Profile</h1>
+          <p>Manage your personal information and track your civic reports.</p>
+        </div>
+      </header>
+
+      <div class="profile-layout">
+
+        <!-- Profile Settings Form -->
+        <section class="glass-card profile-settings-card">
+          <div class="profile-header-banner">
+            <div class="profile-avatar-large" id="profile-page-avatar"></div>
+            <div class="profile-titles">
+              <h2 id="profile-page-name">Loading...</h2>
+              <p id="profile-page-email">...</p>
+              <span class="badge badge-primary" id="profile-page-role" style="margin-top: 8px;">Citizen</span>
+            </div>
+          </div>
+
+          <form id="profile-form" class="profile-form">
+            <div id="profile-status" class="alert-message" style="display:none;"></div>
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="prof-nickname">Nickname</label>
+                <input type="text" id="prof-nickname" placeholder="What should we call you?">
+              </div>
+              <div class="form-field">
+                <label for="prof-phone">Phone Number</label>
+                <input type="tel" id="prof-phone" placeholder="+91 9876543210">
+              </div>
+              <div class="form-field">
+                <label for="prof-profession">Profession / Designation</label>
+                <input type="text" id="prof-profession" placeholder="e.g. Software Engineer, Student">
+              </div>
+              <div class="form-field">
+                <label for="prof-area">Residential Area / Ward</label>
+                <select id="prof-area">
+                  <option value="" disabled selected>Select your area</option>
+                  <option value="Andheri">Andheri</option>
+                  <option value="Bandra">Bandra</option>
+                  <option value="Borivali">Borivali</option>
+                  <option value="Colaba">Colaba</option>
+                  <option value="Dadar">Dadar</option>
+                  <option value="Goregaon">Goregaon</option>
+                  <option value="Juhu">Juhu</option>
+                  <option value="Kandivali">Kandivali</option>
+                  <option value="Lower Parel">Lower Parel</option>
+                  <option value="Malad">Malad</option>
+                  <option value="Mulund">Mulund</option>
+                  <option value="Powai">Powai</option>
+                  <option value="Panvel">Panvel</option>
+                  <option value="Navi Mumbai">Navi Mumbai</option>
+                  <option value="Thane">Thane</option>
+                  <option value="Vasai">Vasai</option>
+                  <option value="Nagothane">Nagothane</option>
+                  <option value="Kharghar">Kharghar</option>
+                  <option value="Kalyan">Kalyan</option>
+                  <option value="Vile Parle">Vile Parle</option>
+                  <option value="Worli">Worli</option>
+                </select>
+              </div>
+              <div class="form-field" style="grid-column: 1 / -1;">
+                <label for="prof-address">Residential Address</label>
+                <textarea id="prof-address" placeholder="Enter your full address..." rows="2"></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" id="save-profile-btn" disabled>Save Changes</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- User's Complaints Feed -->
+        <section class="user-complaints-section">
+          <h2>My Submitted Complaints</h2>
+          <div id="my-complaints-list" class="my-complaints-list">
+            <div class="loading-spinner">Loading your complaints...</div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+
+</html>

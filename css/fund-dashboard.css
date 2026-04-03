@@ -1,0 +1,191 @@
+/* FUND-DASHBOARD.CSS — Budget Dashboard Styles */
+
+/* Dashboard Stats Row */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+  padding: var(--space-lg);
+  text-align: center;
+}
+
+.stat-card .stat-icon {
+  font-size: 1.6rem;
+  margin-bottom: var(--space-sm);
+}
+
+.stat-card .stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.stat-card .stat-label {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* Year Selector */
+.year-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.year-selector label {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+}
+
+.year-tabs {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.year-tab {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border: var(--glass-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.year-tab:hover { color: var(--color-primary); }
+.year-tab.active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* Charts Grid */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.chart-card {
+  padding: var(--space-lg);
+}
+
+.chart-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.chart-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.chart-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.chart-wrapper canvas {
+  width: 100% !important;
+  max-height: 350px;
+}
+
+/* Allocation Table */
+.allocation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.allocation-table thead th {
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.allocation-table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  vertical-align: middle;
+}
+
+.allocation-table tbody tr:hover {
+  background: rgba(79, 70, 229, 0.03);
+}
+
+.allocation-table .sector-name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: 600;
+}
+
+.sector-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.allocation-table .amount {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.allocation-table .change-positive {
+  color: var(--color-success);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.allocation-table .change-negative {
+  color: var(--color-danger);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+/* Source Citation */
+.data-source {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: var(--space-md);
+  border-top: var(--glass-border);
+  margin-top: var(--space-lg);
+}
+
+.data-source a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .charts-grid { grid-template-columns: 1fr; }
+  .dashboard-stats { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .dashboard-stats { grid-template-columns: 1fr; }
+}

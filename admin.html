@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin panel for managing civic complaints — view, filter, and update complaint statuses.">
+  <title>Admin Panel — CivicPulse</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebar-root"></div>
+
+    <main class="main-content">
+
+      <div class="page-header animate-fade-in-up">
+        <h1>🔐 Admin Panel</h1>
+        <p>Manage civic complaints, update statuses, and monitor citizen submissions.</p>
+      </div>
+
+      <!-- Login Required -->
+      <div id="login-prompt" style="display:none;">
+        <div class="glass-card access-denied no-hover animate-fade-in-up">
+          <div class="denied-icon">🔑</div>
+          <h2>Login Required</h2>
+          <p>Please login to access the admin panel. Click the login button in the sidebar.</p>
+        </div>
+      </div>
+
+      <!-- Access Denied (non-admin user) -->
+      <div id="access-denied" style="display:none;">
+        <div class="glass-card access-denied no-hover animate-fade-in-up">
+          <div class="denied-icon">🚫</div>
+          <h2>Access Denied</h2>
+          <p>You don't have admin privileges. Contact the administrator to request access.</p>
+        </div>
+      </div>
+
+      <!-- Admin Panel (only visible to admins) -->
+      <div id="admin-panel" style="display:none;">
+
+        <!-- Stats -->
+        <div class="admin-stats animate-fade-in-up animate-delay-1">
+          <div class="glass-card admin-stat no-hover">
+            <div class="stat-num text-gradient" id="admin-total">0</div>
+            <div class="stat-lbl">Total Complaints</div>
+          </div>
+          <div class="glass-card admin-stat no-hover">
+            <div class="stat-num" style="color:#d97706;" id="admin-pending">0</div>
+            <div class="stat-lbl">Pending</div>
+          </div>
+          <div class="glass-card admin-stat no-hover">
+            <div class="stat-num" style="color:var(--color-primary);" id="admin-progress">0</div>
+            <div class="stat-lbl">In Progress</div>
+          </div>
+          <div class="glass-card admin-stat no-hover">
+            <div class="stat-num" style="color:var(--color-success);" id="admin-resolved">0</div>
+            <div class="stat-lbl">Resolved</div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="admin-filters animate-fade-in-up animate-delay-2">
+          <label style="font-weight:600; font-size:0.88rem;">Filter by Status:</label>
+          <select class="admin-filter-select" id="filter-status">
+            <option value="all">All Complaints</option>
+            <option value="pending">⏳ Pending</option>
+            <option value="in-progress">🔄 In Progress</option>
+            <option value="resolved">✅ Resolved</option>
+            <option value="rejected">❌ Rejected</option>
+          </select>
+        </div>
+
+        <!-- Complaints Table -->
+        <div class="glass-card no-hover animate-fade-in-up animate-delay-3" style="padding:var(--space-lg);">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Complaint</th>
+                  <th>Category</th>
+                  <th>Submitted By</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Change Status</th>
+                </tr>
+              </thead>
+              <tbody id="complaints-tbody">
+                <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--color-text-muted);">Loading complaints...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

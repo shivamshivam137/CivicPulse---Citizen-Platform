@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Authority dashboard for Mayors and Councilors to manage local civic complaints.">
+  <title>Authority Dashboard — CivicPulse</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/authority.css">
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebar-root"></div>
+
+    <main class="main-content">
+
+      <!-- Login Required -->
+      <div id="login-prompt" style="display:none;">
+        <div class="page-header animate-fade-in-up">
+          <h1>🏛️ Authority Dashboard</h1>
+        </div>
+        <div class="glass-card access-denied no-hover animate-fade-in-up">
+          <div class="denied-icon">🔑</div>
+          <h2>Login Required</h2>
+          <p>Please login to access the Authority Dashboard. Click the login button in the sidebar.</p>
+        </div>
+      </div>
+
+      <!-- Access Denied (non-authority user) -->
+      <div id="access-denied" style="display:none;">
+        <div class="page-header animate-fade-in-up">
+          <h1>🏛️ Authority Dashboard</h1>
+        </div>
+        <div class="glass-card access-denied no-hover animate-fade-in-up">
+          <div class="denied-icon">🚫</div>
+          <h2>Access Denied</h2>
+          <p>You do not have Mayor or Councilor privileges. This area is restricted to authorized local government officials.</p>
+        </div>
+      </div>
+
+      <!-- Authority Panel (only visible to mayors/councilors) -->
+      <div id="authority-panel" style="display:none;">
+        
+        <div class="page-header animate-fade-in-up">
+          <div class="authority-title">
+            <h1 id="auth-title-text">Authority Dashboard</h1>
+            <div class="ward-badge" id="auth-ward-badge">📍 Jurisdiction: Loading...</div>
+          </div>
+          <p>Review and act upon citizen complaints specific to your assigned area.</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="authority-stats animate-fade-in-up animate-delay-1">
+          <div class="glass-card auth-stat no-hover">
+            <div class="stat-num text-gradient" id="stat-total">0</div>
+            <div class="stat-lbl">Area Complaints</div>
+          </div>
+          <div class="glass-card auth-stat no-hover">
+            <div class="stat-num" style="color:#d97706;" id="stat-pending">0</div>
+            <div class="stat-lbl">Pending</div>
+          </div>
+          <div class="glass-card auth-stat no-hover">
+            <div class="stat-num" style="color:var(--color-primary);" id="stat-progress">0</div>
+            <div class="stat-lbl">In Progress</div>
+          </div>
+          <div class="glass-card auth-stat no-hover">
+            <div class="stat-num" style="color:var(--color-success);" id="stat-resolved">0</div>
+            <div class="stat-lbl">Resolved</div>
+          </div>
+        </div>
+
+        <div class="authority-header-info animate-fade-in-up animate-delay-2">
+          <!-- Filters -->
+          <div class="auth-filters">
+            <label style="font-weight:600; font-size:0.88rem;">Filter by Status:</label>
+            <select class="auth-filter-select" id="auth-filter-status">
+              <option value="all">All Complaints</option>
+              <option value="pending">⏳ Pending</option>
+              <option value="in-progress">🔄 In Progress</option>
+              <option value="resolved">✅ Resolved</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Complaints Table -->
+        <div class="glass-card no-hover animate-fade-in-up animate-delay-3" style="padding:var(--space-lg);">
+          <div class="auth-table-wrap">
+            <table class="auth-table">
+              <thead>
+                <tr>
+                  <th>Complaint Issue</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="auth-complaints-tbody">
+                <tr><td colspan="5" style="text-align:center; padding:40px; color:var(--color-text-muted);">Loading area complaints...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/authority.js"></script>
+</body>
+</html>

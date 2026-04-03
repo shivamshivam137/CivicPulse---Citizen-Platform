@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="CivicPulse — A modern civic engagement platform empowering citizens to track candidates, report issues, and monitor government funding.">
+  <title>CivicPulse — Civic Engagement Platform</title>
+
+  <!-- 
+    ============================================================
+    HOW THE CSS FILES ARE ORGANIZED
+    ============================================================
+    
+    1. global.css     → Loaded on EVERY page. Contains the design
+                        system (variables, reset, layout grid,
+                        responsive rules, utilities).
+    
+    2. components.css → Loaded on EVERY page. Contains styles for
+                        shared UI components (sidebar, cards,
+                        buttons, badges).
+    
+    3. home.css       → Loaded ONLY on this page. Contains styles
+                        specific to the home page (hero, stats,
+                        feature cards).
+    
+    WHY THIS MATTERS:
+    When you create a new page, you link global.css + components.css
+    (for shared styles) and optionally your own page-specific CSS.
+    This keeps each file small and maintainable.
+    ============================================================
+  -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+
+  <!-- 
+    ============================================================
+    THE APP LAYOUT
+    ============================================================
+    
+    This <div class="app-layout"> is the CSS Grid container.
+    
+    On desktop:  2 columns → [sidebar 270px] [main-content 1fr]
+    On mobile:   1 column  → [main-content 1fr] (sidebar is fixed overlay)
+    
+    The #sidebar-root is an empty <div> that JavaScript fills
+    with the sidebar HTML on page load. This is how we avoid
+    duplicating sidebar code in every HTML page.
+    ============================================================
+  -->
+  <div class="app-layout">
+
+    <!-- Sidebar is injected here by js/global.js -->
+    <div id="sidebar-root"></div>
+
+    <!-- Main Content Area -->
+    <main class="main-content" style="position: relative;">
+
+      <div style="position: absolute; top: 32px; right: 40px; z-index: 100;">
+        <select class="lang-selector" style="padding: 10px 16px; border-radius: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; outline: none; cursor: pointer; backdrop-filter: blur(12px); font-size: 0.9rem; font-weight: 500; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+          <option value="en" style="background: #111; color: white;">A|अ English</option>
+          <option value="hi" style="background: #111; color: white;">A|अ हिंदी</option>
+          <option value="mr" style="background: #111; color: white;">A|अ मराठी</option>
+        </select>
+      </div>
+
+      <!-- ── HERO SECTION ──────────────────────────────────── -->
+      <section class="hero-section animate-fade-in-up">
+        <div class="hero-content">
+          <p data-auth="logged-in" data-i18n="hero_welcome" style="margin-bottom:var(--space-sm); font-weight:700; color:#ffde59; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            Welcome back! 👋</p>
+          <p data-auth="logged-out" data-i18n="hero_login"
+            style="margin-bottom:var(--space-sm); font-weight:600; color:var(--color-text-muted);">Sign in to get
+            started.</p>
+          <div class="hero-badge" data-i18n="hero_badge">
+            Empowering Citizens
+          </div>
+          <h1 data-i18n="hero_title">Your Voice Matters.<br>Make It Count.</h1>
+          <p data-i18n="hero_subtitle">
+            CivicPulse gives you the tools to research candidates,
+            report civic issues in your community, and track where
+            your tax money goes — all in one place.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-hero btn-hero-primary" onclick="window.location.href='complaints.html'" data-i18n="btn_report">
+              Report an Issue
+            </button>
+            <button class="btn-hero btn-hero-secondary" onclick="window.location.href='candidates.html'" data-i18n="btn_explore">
+              Explore Candidates
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STATS ROW ─────────────────────────────────────── -->
+      <div class="stats-grid">
+        <div class="glass-card stat-card animate-fade-in-up animate-delay-1">
+          <div class="stat-icon" style="background: var(--gradient-primary);">
+            <svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <div class="stat-number text-gradient" id="stat-citizens">0</div>
+          <div class="stat-label">Active Citizens</div>
+        </div>
+
+        <div class="glass-card stat-card animate-fade-in-up animate-delay-2">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+            <svg viewBox="0 0 24 24">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+          <div class="stat-number" style="color: var(--color-success);" id="stat-resolved">0</div>
+          <div class="stat-label">Issues Resolved</div>
+        </div>
+
+        <div class="glass-card stat-card animate-fade-in-up animate-delay-3">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <div class="stat-number" style="color: var(--color-accent);" id="stat-filed">0</div>
+          <div class="stat-label">Complaints Filed</div>
+        </div>
+
+        <div class="glass-card stat-card animate-fade-in-up animate-delay-4">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+          </div>
+          <div class="stat-number" style="color: #8b5cf6;" id="stat-funds">₹0</div>
+          <div class="stat-label">Funds Tracked</div>
+        </div>
+      </div>
+
+      <!-- ── FEATURE CARDS ─────────────────────────────────── -->
+      <h2 class="section-title animate-fade-in-up animate-delay-3">
+        <span class="title-dot"></span>
+        Platform Features
+      </h2>
+
+      <div class="features-grid">
+
+        <!-- Complaints Feature -->
+        <a href="complaints.html" class="glass-card feature-card animate-fade-in-up animate-delay-3">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #f59e0b);">
+            <svg viewBox="0 0 24 24">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </div>
+          <h3>Report Issues</h3>
+          <p>Photograph potholes, sewage blockages, water logging, and more. Geo-tag and submit directly to local
+            authorities.</p>
+          <span class="feature-link">File a Complaint →</span>
+        </a>
+
+        <!-- Candidates Feature -->
+        <a href="candidates.html" class="glass-card feature-card animate-fade-in-up animate-delay-4">
+          <div class="feature-icon" style="background: var(--gradient-primary);">
+            <svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <h3>Candidate Profiles</h3>
+          <p>Deep-dive into candidate backgrounds — education, assets, criminal records, and manifesto promises all in
+            one place.</p>
+          <span class="feature-link">View Candidates →</span>
+        </a>
+
+        <!-- Fund Dashboard Feature -->
+        <a href="fund-dashboard.html" class="glass-card feature-card animate-fade-in-up animate-delay-5">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+            <svg viewBox="0 0 24 24">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </div>
+          <h3>Fund Dashboard</h3>
+          <p>Track government spending sector by sector. Interactive charts show exactly where public funds are
+            allocated.</p>
+          <span class="feature-link">View Funds →</span>
+        </a>
+
+        <!-- Chatbot Feature -->
+        <a href="chatbot.html" class="glass-card feature-card animate-fade-in-up animate-delay-3">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2a8 8 0 0 0-8 8c0 3.4 2.1 6.3 5 7.5V20h6v-2.5c2.9-1.2 5-4.1 5-7.5a8 8 0 0 0-8-8z" />
+              <line x1="9" y1="22" x2="9" y2="24" />
+              <line x1="15" y1="22" x2="15" y2="24" />
+            </svg>
+          </div>
+          <h3>AI Chatbot</h3>
+          <p>Ask anything about civic processes, RTI, voting procedures, or candidate policies. Powered by Google
+            Gemini.</p>
+          <span class="feature-link">Start Chat →</span>
+        </a>
+
+        <!-- About Feature -->
+        <a href="about.html" class="glass-card feature-card animate-fade-in-up animate-delay-4">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #06b6d4, #4f46e5);">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
+          </div>
+          <h3>About CivicPulse</h3>
+          <p>Learn about our mission, features, and the technology powering this civic engagement platform.</p>
+          <span class="feature-link">Learn More →</span>
+        </a>
+
+        <!-- Learning Feature -->
+        <a href="learning.html" class="glass-card feature-card animate-fade-in-up animate-delay-5">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+            <svg viewBox="0 0 24 24">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </svg>
+          </div>
+          <h3>Civic Learning</h3>
+          <p>Understand democracy, citizen rights, political policies, RTI, and the Constitution through easy-to-digest
+            modules.</p>
+          <span class="feature-link">Start Learning →</span>
+        </a>
+
+        <!-- Schemes Feature -->
+        <a href="schemes.html" class="glass-card feature-card animate-fade-in-up animate-delay-3">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <h3>Government Schemes</h3>
+          <p>Discover government schemes you're eligible for — PM Kisan, Ayushman Bharat, MNREGA, and more. Direct
+            portal links.</p>
+          <span class="feature-link">Explore Schemes →</span>
+        </a>
+
+        <!-- Participation Feature -->
+        <a href="participation.html" class="glass-card feature-card animate-fade-in-up animate-delay-4">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
+            <svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <line x1="19" y1="8" x2="19" y2="14" />
+              <line x1="22" y1="11" x2="16" y2="11" />
+            </svg>
+          </div>
+          <h3>Participate</h3>
+          <p>Democracy is about showing up. Join local committees, attend town halls, and help shape your community's
+            future.</p>
+          <span class="feature-link">Get Involved →</span>
+        </a>
+
+      </div>
+      <!-- end features-grid -->
+
+    </main>
+  </div>
+
+  <!-- 
+    ============================================================
+    SCRIPT LOADING ORDER
+    ============================================================
+    global.js MUST load on every page. It injects the sidebar,
+    sets up the theme toggle, and handles the mobile menu.
+
+    Page-specific JS files (if any) load AFTER global.js.
+    ============================================================
+  -->
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  
+  <!-- i18n System -->
+  <script src="js/lang.js"></script>
+  <script src="js/i18n.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/stats.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,526 @@
+/* ============================================================
+   COMPONENTS.CSS — Shared UI Components
+   ============================================================
+   
+   HOW THIS FILE WORKS:
+   --------------------
+   This file styles every REUSABLE component that appears on
+   multiple pages: sidebar, cards, buttons, badges, etc.
+   
+   It is imported by EVERY page alongside global.css.
+   Page-specific styles go in their own CSS file (e.g. home.css).
+   
+   ESSENTIAL-TO-KNOW:
+   - The Sidebar is styled here but its HTML is INJECTED by
+     JavaScript (global.js). This means if you edit the sidebar
+     structure, edit it in global.js, not in the HTML files.
+   - All components use the CSS variables from global.css,
+     so theme switching (dark/light) automatically applies.
+   ============================================================ */
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================
+   
+   The sidebar uses:
+   - position: fixed → stays visible while scrolling
+   - backdrop-filter: blur → glassmorphism effect
+   - flexbox column → stacks logo, nav links, and bottom toggle
+   
+   On mobile, it slides in from the left via the .open class.
+   ============================================================ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--color-sidebar);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-right: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  transition: transform var(--transition-normal), background var(--transition-normal);
+  overflow-y: auto;
+}
+
+/* ── Sidebar Logo ─ */
+.sidebar-brand {
+  padding: var(--space-lg) var(--space-lg) var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sidebar-brand .brand-icon {
+  width: 42px;
+  height: 42px;
+  background: var(--gradient-primary);
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-brand .brand-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+}
+
+.sidebar-brand .brand-text h2 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+.sidebar-brand .brand-text span {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+
+/* ── Sidebar Navigation ─ */
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+}
+
+.sidebar-nav .nav-section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: var(--space-lg) var(--space-sm) var(--space-sm);
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 12px 14px;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.sidebar-nav a svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+  transition: stroke var(--transition-fast);
+}
+
+.sidebar-nav a:hover {
+  background: var(--color-border);
+  color: var(--color-text);
+}
+
+/* Active state — highlight the current page */
+.sidebar-nav a.active {
+  background: linear-gradient(135deg, rgba(79,70,229,0.12) 0%, rgba(6,182,212,0.08) 100%);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.sidebar-nav a.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--gradient-primary);
+  border-radius: 0 4px 4px 0;
+}
+
+[data-theme="dark"] .sidebar-nav a.active {
+  background: linear-gradient(135deg, rgba(79,70,229,0.2) 0%, rgba(6,182,212,0.1) 100%);
+  color: var(--color-primary-light);
+}
+
+
+/* ── Sidebar Footer (Theme Toggle) ─ */
+.sidebar-footer {
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  border-top: var(--glass-border);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: var(--border-radius-sm);
+  background: var(--color-border);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  width: 100%;
+}
+
+.theme-toggle:hover {
+  background: rgba(79, 70, 229, 0.15);
+}
+
+.theme-toggle .toggle-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.theme-toggle .toggle-label svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--color-text-secondary);
+  fill: none;
+  stroke-width: 2;
+}
+
+/* The sliding pill toggle */
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: var(--color-text-muted);
+  border-radius: 12px;
+  position: relative;
+  transition: background var(--transition-fast);
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: transform var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+[data-theme="dark"] .toggle-switch {
+  background: var(--color-primary);
+}
+
+[data-theme="dark"] .toggle-switch::after {
+  transform: translateX(20px);
+}
+
+
+/* ── Mobile: Sidebar hidden by default, slides in with .open ─ */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    animation: slideInLeft 0.3s ease-out;
+  }
+}
+
+
+/* ============================================================
+   GLASS CARD — The primary content container
+   ============================================================ */
+
+.glass-card {
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--glass-shadow);
+  padding: var(--space-lg);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-normal);
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(79, 70, 229, 0.12);
+}
+
+.glass-card.no-hover:hover {
+  transform: none;
+  box-shadow: var(--glass-shadow);
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 10px 24px;
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: var(--glass-border);
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  background: var(--color-border);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.btn-outline:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+}
+
+.btn-lg {
+  padding: 14px 32px;
+  font-size: 1rem;
+}
+
+/* Button ripple effect */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.5s, opacity 0.3s;
+}
+
+.btn:active::after {
+  transform: scale(2.5);
+  opacity: 1;
+  transition: 0s;
+}
+
+
+/* ============================================================
+   BADGES & TAGS
+   ============================================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.badge-primary {
+  background: rgba(79, 70, 229, 0.12);
+  color: var(--color-primary);
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--color-success);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-danger);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--color-accent);
+}
+
+
+/* ============================================================
+   STAT CARDS
+   ============================================================ */
+
+.stat-card {
+  text-align: center;
+  padding: var(--space-lg);
+}
+
+.stat-card .stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-md);
+}
+
+.stat-card .stat-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+}
+
+.stat-card .stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: var(--space-xs);
+}
+
+.stat-card .stat-label {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+
+.page-header {
+  margin-bottom: var(--space-xl);
+}
+
+.page-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: var(--space-xs);
+}
+
+.page-header p {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 1.4rem;
+  }
+}
+
+
+/* ============================================================
+   SECTION PLACEHOLDER (for pages not yet built)
+   ============================================================ */
+
+.page-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 60vh;
+  gap: var(--space-lg);
+}
+
+.page-placeholder .placeholder-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+.page-placeholder .placeholder-icon svg {
+  width: 48px;
+  height: 48px;
+  stroke: white;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.page-placeholder h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.page-placeholder p {
+  color: var(--color-text-secondary);
+  max-width: 450px;
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   SCROLLBAR CUSTOMIZATION
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}

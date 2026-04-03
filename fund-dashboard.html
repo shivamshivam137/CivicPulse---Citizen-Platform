@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track how government funds are allocated across sectors — Defence, Education, Health, Railways, and more.">
+  <title>Fund Dashboard — CivicPulse</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/fund-dashboard.css">
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebar-root"></div>
+
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <div class="page-header animate-fade-in-up">
+        <h1>💰 Fund Allocation Dashboard</h1>
+        <p>Track how the Indian Union Budget is allocated across key sectors. Data sourced from official government budget documents.</p>
+      </div>
+
+      <!-- Year Selector -->
+      <div class="year-selector animate-fade-in-up animate-delay-1">
+        <label>Budget Year:</label>
+        <div class="year-tabs">
+          <button class="year-tab active" data-year="2026-27">2026-27</button>
+          <button class="year-tab" data-year="2025-26">2025-26</button>
+          <button class="year-tab" data-year="2024-25">2024-25</button>
+          <button class="year-tab" data-year="2023-24">2023-24</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="dashboard-stats animate-fade-in-up animate-delay-1">
+        <div class="glass-card stat-card no-hover">
+          <div class="stat-icon">💰</div>
+          <div class="stat-value text-gradient" id="stat-total">—</div>
+          <div class="stat-label">Total Budget</div>
+        </div>
+        <div class="glass-card stat-card no-hover">
+          <div class="stat-icon">📉</div>
+          <div class="stat-value" id="stat-fiscal" style="color:var(--color-danger);">—</div>
+          <div class="stat-label">Fiscal Deficit</div>
+        </div>
+        <div class="glass-card stat-card no-hover">
+          <div class="stat-icon">🏗️</div>
+          <div class="stat-value" id="stat-capex" style="color:var(--color-success);">—</div>
+          <div class="stat-label">Capital Expenditure</div>
+        </div>
+        <div class="glass-card stat-card no-hover">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value" id="stat-revenue" style="color:var(--color-secondary);">—</div>
+          <div class="stat-label">Revenue Expenditure</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+
+        <!-- Sector-wise Allocation (Bar Chart) -->
+        <div class="glass-card chart-card no-hover animate-fade-in-up animate-delay-2">
+          <div class="chart-title">📊 Sector-wise Budget Allocation</div>
+          <div class="chart-subtitle">Ministry/Department-wise allocation in ₹ Crore</div>
+          <div class="chart-wrapper" style="height:380px;">
+            <canvas id="chart-sectors"></canvas>
+          </div>
+        </div>
+
+        <!-- Revenue Sources (Doughnut Chart) -->
+        <div class="glass-card chart-card no-hover animate-fade-in-up animate-delay-3">
+          <div class="chart-title">🧾 Where Does the Money Come From?</div>
+          <div class="chart-subtitle">Revenue sources of the Government of India</div>
+          <div class="chart-wrapper" style="height:380px;">
+            <canvas id="chart-revenue"></canvas>
+          </div>
+        </div>
+
+        <!-- Year Comparison (Line Chart) -->
+        <div class="glass-card chart-card full-width no-hover animate-fade-in-up animate-delay-4">
+          <div class="chart-title">📈 Year-over-Year Comparison</div>
+          <div class="chart-subtitle">Budget allocation trend: 2023-24 vs 2024-25 (₹ Crore)</div>
+          <div class="chart-wrapper" style="height:300px;">
+            <canvas id="chart-comparison"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Allocation Table -->
+      <div class="glass-card no-hover animate-fade-in-up animate-delay-5" style="padding:var(--space-lg);">
+        <div class="chart-title">📋 Detailed Allocation Breakdown</div>
+        <div class="chart-subtitle">All amounts in Indian Rupees (₹)</div>
+        <table class="allocation-table">
+          <thead>
+            <tr>
+              <th>Sector / Ministry</th>
+              <th>Amount (₹ Cr)</th>
+              <th>Amount (Lakh Cr)</th>
+              <th>YoY Change</th>
+            </tr>
+          </thead>
+          <tbody id="allocation-tbody"></tbody>
+        </table>
+        <div class="data-source">
+          Source: <a href="https://www.indiabudget.gov.in" target="_blank">indiabudget.gov.in</a> — Union Budget of India, Ministry of Finance, Government of India.
+          Data represents Revised Estimates. All figures in Indian Rupees.
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/fund-dashboard.js"></script>
+</body>
+</html>

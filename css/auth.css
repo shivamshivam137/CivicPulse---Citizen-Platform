@@ -1,0 +1,425 @@
+/* ============================================================
+   AUTH.CSS — Authentication Modal Styles
+   ============================================================
+   
+   The auth modal is a full-screen overlay with a centered card.
+   It contains login/signup tabs, form fields, Google sign-in
+   button, and error messages.
+   ============================================================ */
+
+
+/* ── Modal Overlay ──────────────────────────────────────────── */
+
+.auth-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+  padding: var(--space-md);
+}
+
+.auth-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* ── Modal Card ─────────────────────────────────────────────── */
+
+.auth-modal-card {
+  background: var(--color-surface-solid);
+  border-radius: var(--border-radius);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  transform: translateY(20px) scale(0.97);
+  transition: transform var(--transition-normal);
+  overflow: hidden;
+}
+
+.auth-modal-overlay.active .auth-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+/* Close button */
+.auth-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+  z-index: 1;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.auth-modal-close:hover {
+  background: var(--color-border);
+  color: var(--color-text);
+}
+
+
+/* ── Header with gradient ───────────────────────────────────── */
+
+.auth-header {
+  background: var(--gradient-primary);
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
+  text-align: center;
+  color: white;
+}
+
+.auth-header .auth-logo {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-sm);
+}
+
+.auth-header .auth-logo svg {
+  width: 26px;
+  height: 26px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+}
+
+.auth-header h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.auth-header p {
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+
+/* ── Tabs (Login / Sign Up) ─────────────────────────────────── */
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 14px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  background: none;
+  border: none;
+}
+
+.auth-tab:hover {
+  color: var(--color-text);
+  background: rgba(79, 70, 229, 0.04);
+}
+
+.auth-tab.active {
+  color: var(--color-primary);
+}
+
+.auth-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background: var(--gradient-primary);
+  border-radius: 3px 3px 0 0;
+}
+
+
+/* ── Form Body ──────────────────────────────────────────────── */
+
+.auth-body {
+  padding: var(--space-lg) var(--space-xl) var(--space-xl);
+}
+
+
+/* ── Form Fields ────────────────────────────────────────────── */
+
+.auth-field {
+  margin-bottom: var(--space-md);
+}
+
+.auth-field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-xs);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.auth-field input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.auth-field input::placeholder {
+  color: var(--color-text-muted);
+}
+
+
+/* ── Error Message ──────────────────────────────────────────── */
+
+.auth-error {
+  display: none;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--color-danger);
+  padding: 10px 14px;
+  border-radius: var(--border-radius-xs);
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin-bottom: var(--space-md);
+  line-height: 1.5;
+}
+
+
+/* ── Submit Button ──────────────────────────────────────────── */
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-xs);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* ── Divider ────────────────────────────────────────────────── */
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+
+/* ── Google Button ──────────────────────────────────────────── */
+
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-xs);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.google-btn:hover:not(:disabled) {
+  border-color: var(--color-text-muted);
+  background: var(--color-surface);
+}
+
+.google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.google-btn .google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* ── Sidebar Profile Section ────────────────────────────────── */
+
+.sidebar-profile {
+  display: none;  /* hidden until auth state says logged in */
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-top: var(--glass-border);
+}
+
+.sidebar-profile .profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.sidebar-profile .profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar-profile .profile-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-profile .profile-email {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-logout-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--border-radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.sidebar-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-danger);
+}
+
+.sidebar-logout-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+
+/* ── Sidebar Login Button ───────────────────────────────────── */
+
+.sidebar-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: calc(100% - 2 * var(--space-lg));
+  margin: 0 var(--space-lg) var(--space-md);
+  padding: 10px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+}
+
+.sidebar-login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+}
+
+.sidebar-login-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .auth-modal-card {
+    max-width: 100%;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .auth-body {
+    padding: var(--space-md);
+  }
+
+  .auth-header {
+    padding: var(--space-lg) var(--space-md);
+  }
+}

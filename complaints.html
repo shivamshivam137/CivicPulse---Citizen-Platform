@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Report civic issues like potholes, sewage blockages, and water logging in your neighborhood.">
+  <title>Complaints — CivicPulse</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/complaints.css">
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebar-root"></div>
+
+    <main class="main-content">
+      <div class="page-header animate-fade-in-up">
+        <h1 data-i18n="page_title_complaints">📢 Report a Civic Issue</h1>
+        <p data-i18n="page_desc_complaints">Photograph problems in your area and submit them. Track their resolution in real time.</p>
+      </div>
+
+      <div class="complaints-layout">
+
+        <!-- ── LEFT: Complaint Form ──────────────────────── -->
+        <div class="glass-card complaint-form-card no-hover animate-fade-in-up animate-delay-1">
+          <div class="form-title">📝 New Complaint</div>
+
+          <div class="complaint-status" id="complaint-status"></div>
+
+          <form id="complaint-form">
+
+            <div class="form-field">
+              <label for="complaint-title">Title *</label>
+              <input type="text" id="complaint-title" placeholder="e.g., Large pothole on MG Road" required>
+            </div>
+
+            <div class="form-field">
+              <label for="complaint-category">Category *</label>
+              <select id="complaint-category" required>
+                <option value="" disabled selected>Select issue type</option>
+                <option value="pothole">🕳️ Pothole</option>
+                <option value="sewage">🚰 Sewage Blockage</option>
+                <option value="waterlogging">🌊 Water Logging</option>
+                <option value="streetlight">💡 Broken Streetlight</option>
+                <option value="garbage">🗑️ Garbage Dump</option>
+                <option value="road">🛣️ Road Damage</option>
+                <option value="other">📋 Other</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="complaint-area">Area / Ward *</label>
+              <select id="complaint-area" required>
+                <option value="" disabled selected>Select your area</option>
+                <option value="Andheri">Andheri</option>
+                <option value="Bandra">Bandra</option>
+                <option value="Borivali">Borivali</option>
+                <option value="Colaba">Colaba</option>
+                <option value="Dadar">Dadar</option>
+                <option value="Panvel">Panvel</option>
+                <option value="Vashi">Vashi</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="complaint-description">Description *</label>
+              <textarea id="complaint-description" placeholder="Describe the issue in detail — size, severity, how long it has existed..." required></textarea>
+            </div>
+
+            <!-- GPS Location -->
+            <div class="form-field">
+              <label>Location</label>
+              <div class="gps-section">
+                <button type="button" class="gps-btn" id="gps-btn">📍 Get My Location</button>
+                <span class="gps-status" id="gps-status"></span>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="complaint-address">Address (optional)</label>
+              <input type="text" id="complaint-address" placeholder="e.g., Near Sector 15 Market, Noida">
+            </div>
+
+            <!-- Image Upload -->
+            <div class="form-field">
+              <label>Photo Evidence</label>
+              <input type="file" id="complaint-image" accept="image/*" capture="environment" style="display:none;">
+              <div class="image-dropzone" id="image-dropzone">
+                <div class="dropzone-icon">📷</div>
+                <div class="dropzone-text">Click or drag an image here</div>
+                <div class="dropzone-hint">Max 5MB · JPG, PNG, WebP</div>
+              </div>
+              <div class="image-preview" id="image-preview"></div>
+            </div>
+
+            <!-- Upload Progress -->
+            <div class="upload-progress" id="upload-progress">
+              <div class="progress-bar"><div class="progress-fill"></div></div>
+              <div class="progress-text">Uploading: 0%</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" id="complaint-submit-btn" style="width:100%;">
+              Submit Complaint
+            </button>
+          </form>
+        </div>
+
+        <!-- ── RIGHT: Recent Complaints ──────────────────── -->
+        <div class="glass-card complaints-list-card animate-fade-in-up animate-delay-2">
+          <div class="list-title">
+            <span data-i18n="header_complaints">📋 Recent Complaints</span>
+          </div>
+          <div class="complaints-list" id="complaints-list">
+            <div class="loading-spinner">Loading complaints...</div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <!-- i18n System -->
+  <script src="js/lang.js"></script>
+  <script src="js/i18n.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/complaints.js"></script>
+</body>
+</html>
