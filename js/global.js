@@ -266,6 +266,105 @@ function buildSidebar() {
         </div>
       </div>
     </div>
+
+    <!-- ── WELCOME GATE MODAL ──────────────────────────────── -->
+    <div class="welcome-modal-overlay" id="welcome-modal">
+      <div class="welcome-modal-card">
+        <div class="welcome-header">
+          <div class="welcome-logo">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h2>Welcome to CivicPulse</h2>
+          <p>Your civic engagement platform. Sign in to track issues, explore candidates, and make your voice heard.</p>
+        </div>
+        <div class="welcome-body">
+          <div class="welcome-actions">
+            <button class="welcome-btn-primary" id="welcome-login-btn">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              Log In
+            </button>
+            <button class="welcome-btn-secondary" id="welcome-signup-btn">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+              Create Account
+            </button>
+            <div class="welcome-divider">or</div>
+            <button class="welcome-btn-ghost" id="welcome-guest-btn">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              Continue as Guest
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROFILE COMPLETION MODAL ────────────────────────── -->
+    <div class="profile-complete-overlay" id="profile-complete-modal">
+      <div class="profile-complete-card">
+        <div class="profile-complete-header">
+          <div class="profile-modal-avatar" id="profile-modal-avatar">👤</div>
+          <div class="header-text">
+            <h2>Complete Your Profile</h2>
+            <p>Help us personalize your experience</p>
+          </div>
+        </div>
+        <div class="profile-complete-body">
+          <form id="profile-quick-form">
+            <div class="profile-modal-grid">
+              <div class="auth-field">
+                <label for="quick-nickname">Nickname</label>
+                <input type="text" id="quick-nickname" placeholder="What should we call you?">
+              </div>
+              <div class="auth-field">
+                <label for="quick-phone">Phone Number</label>
+                <input type="tel" id="quick-phone" placeholder="+91 9876543210">
+              </div>
+              <div class="auth-field">
+                <label for="quick-profession">Profession</label>
+                <input type="text" id="quick-profession" placeholder="e.g. Student, Engineer">
+              </div>
+              <div class="auth-field">
+                <label for="quick-area">Residential Area</label>
+                <select id="quick-area">
+                  <option value="" disabled selected>Select your area</option>
+                  <option value="Andheri">Andheri</option>
+                  <option value="Bandra">Bandra</option>
+                  <option value="Borivali">Borivali</option>
+                  <option value="Colaba">Colaba</option>
+                  <option value="Dadar">Dadar</option>
+                  <option value="Goregaon">Goregaon</option>
+                  <option value="Juhu">Juhu</option>
+                  <option value="Kandivali">Kandivali</option>
+                  <option value="Lower Parel">Lower Parel</option>
+                  <option value="Malad">Malad</option>
+                  <option value="Mulund">Mulund</option>
+                  <option value="Powai">Powai</option>
+                  <option value="Panvel">Panvel</option>
+                  <option value="Navi Mumbai">Navi Mumbai</option>
+                  <option value="Thane">Thane</option>
+                  <option value="Vasai">Vasai</option>
+                  <option value="Nagothane">Nagothane</option>
+                  <option value="Kharghar">Kharghar</option>
+                  <option value="Kalyan">Kalyan</option>
+                  <option value="Vile Parle">Vile Parle</option>
+                  <option value="Worli">Worli</option>
+                </select>
+              </div>
+            </div>
+            <div class="profile-complete-actions">
+              <button type="button" class="profile-skip-btn" id="profile-modal-skip">Skip for now</button>
+              <button type="submit" class="auth-submit-btn" id="profile-modal-save">Save & Continue</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Profile Save Toast ──────────────────────────────── -->
+    <div class="profile-save-toast" id="profile-save-toast">✓ Profile saved successfully!</div>
   `;
 
   root.innerHTML = sidebarHTML;

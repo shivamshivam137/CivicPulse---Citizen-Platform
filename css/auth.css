@@ -407,6 +407,368 @@
 }
 
 
+/* ============================================================
+   WELCOME GATE MODAL — Shown on First Visit
+   ============================================================ */
+
+.welcome-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2500;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+  padding: var(--space-md);
+}
+
+.welcome-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.welcome-modal-card {
+  background: var(--color-surface-solid);
+  border-radius: var(--border-radius);
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 460px;
+  transform: translateY(30px) scale(0.95);
+  transition: transform var(--transition-normal);
+  overflow: hidden;
+  text-align: center;
+}
+
+.welcome-modal-overlay.active .welcome-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+/* ── Welcome Header ─────────────────────────────────────────── */
+
+.welcome-header {
+  background: var(--gradient-primary);
+  padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-header::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  top: -60px;
+  right: -40px;
+}
+
+.welcome-header::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  bottom: -30px;
+  left: -20px;
+}
+
+.welcome-logo {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+  backdrop-filter: blur(10px);
+}
+
+.welcome-logo svg {
+  width: 34px;
+  height: 34px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+}
+
+.welcome-header h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+
+.welcome-header p {
+  font-size: 0.88rem;
+  opacity: 0.9;
+  line-height: 1.5;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* ── Welcome Actions ────────────────────────────────────────── */
+
+.welcome-body {
+  padding: var(--space-xl);
+}
+
+.welcome-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.welcome-btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-xs);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.welcome-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+}
+
+.welcome-btn-secondary {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--border-radius-xs);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.welcome-btn-secondary:hover {
+  background: rgba(79, 70, 229, 0.06);
+  transform: translateY(-1px);
+}
+
+.welcome-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin: var(--space-md) 0;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.welcome-divider::before,
+.welcome-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.welcome-btn-ghost {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--color-text-muted);
+  border: none;
+  border-radius: var(--border-radius-xs);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.welcome-btn-ghost:hover {
+  color: var(--color-text);
+  background: rgba(79, 70, 229, 0.04);
+}
+
+.welcome-btn-ghost svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+
+/* ============================================================
+   PROFILE COMPLETION MODAL — Shown After Login
+   ============================================================ */
+
+.profile-complete-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+  padding: var(--space-md);
+}
+
+.profile-complete-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.profile-complete-card {
+  background: var(--color-surface-solid);
+  border-radius: var(--border-radius);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 460px;
+  transform: translateY(20px) scale(0.97);
+  transition: transform var(--transition-normal);
+  overflow: hidden;
+}
+
+.profile-complete-overlay.active .profile-complete-card {
+  transform: translateY(0) scale(1);
+}
+
+/* ── Profile Modal Header ───────────────────────────────────── */
+
+.profile-complete-header {
+  background: var(--gradient-primary);
+  padding: var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  color: white;
+}
+
+.profile-modal-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.profile-complete-header .header-text h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.profile-complete-header .header-text p {
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+/* ── Profile Modal Body ─────────────────────────────────────── */
+
+.profile-complete-body {
+  padding: var(--space-lg) var(--space-xl) var(--space-xl);
+}
+
+.profile-complete-body .profile-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.profile-complete-body .profile-modal-grid .auth-field:last-child {
+  grid-column: 1 / -1;
+}
+
+/* ── Profile Modal Actions ──────────────────────────────────── */
+
+.profile-complete-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.profile-complete-actions .auth-submit-btn {
+  flex: 1;
+}
+
+.profile-skip-btn {
+  padding: 13px 20px;
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-xs);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.profile-skip-btn:hover {
+  border-color: var(--color-text-muted);
+  color: var(--color-text);
+  background: rgba(79, 70, 229, 0.04);
+}
+
+/* ── Profile Save Toast ─────────────────────────────────────── */
+
+.profile-save-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--color-success);
+  color: white;
+  padding: 12px 24px;
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  font-size: 0.88rem;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-fast);
+  z-index: 3000;
+}
+
+.profile-save-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+
 /* ── Responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 480px) {
@@ -421,5 +783,44 @@
 
   .auth-header {
     padding: var(--space-lg) var(--space-md);
+  }
+
+  .welcome-modal-card {
+    max-width: 100%;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .welcome-body {
+    padding: var(--space-md);
+  }
+
+  .welcome-header {
+    padding: var(--space-xl) var(--space-md) var(--space-lg);
+  }
+
+  .welcome-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .profile-complete-card {
+    max-width: 100%;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .profile-complete-body {
+    padding: var(--space-md);
+  }
+
+  .profile-complete-body .profile-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-complete-actions {
+    flex-direction: column-reverse;
+  }
+
+  .profile-skip-btn {
+    width: 100%;
+    text-align: center;
   }
 }

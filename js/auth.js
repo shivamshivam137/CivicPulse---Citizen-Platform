@@ -1,6 +1,7 @@
 /**
  * AUTH.JS — Firebase Authentication Logic
- * Handles user sign up, login, Google Auth, logout, and auth state persistence.
+ * Handles user sign up, login, Google Auth, logout, auth state persistence,
+ * welcome gate modal, and post-login profile completion popup.
  */
 // ─────────────────────────────────────────────────────────────
 // 1. AUTH MODAL — Show / Hide
@@ -54,6 +55,153 @@ function setAuthLoading(isLoading) {
       btn.textContent = btn.dataset.originalText;
     }
   });
+}
+
+
+// ─────────────────────────────────────────────────────────────
+// 1B. WELCOME GATE MODAL — Show / Hide
+// ─────────────────────────────────────────────────────────────
+// Shown on first visit when user is not logged in and hasn't
+// chosen "Continue as Guest" yet. Uses sessionStorage so it
+// only appears once per browser session.
+
+function showWelcomeModal() {
+  const modal = document.getElementById('welcome-modal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function hideWelcomeModal() {
+  const modal = document.getElementById('welcome-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+/**
+ * Decides whether to show the welcome modal.
+ * Called once after auth state is resolved on page load.
+ */
+function maybeShowWelcomeModal(user) {
+  // Already logged in → no need
+  if (user) return;
+  // User previously chose "Continue as Guest" this session
+  if (sessionStorage.getItem('guestMode') === 'true') return;
+  // Show the welcome gate
+  showWelcomeModal();
+}
+
+
+// ─────────────────────────────────────────────────────────────
+// 1C. PROFILE COMPLETION MODAL — Show / Hide / Save
+// ─────────────────────────────────────────────────────────────
+// Shown after login/signup if the user's Firestore profile
+// document is missing key fields (nickname, phone, area).
+
+function showProfileModal(user) {
+  const modal = document.getElementById('profile-complete-modal');
+  if (!modal) return;
+
+  // Set the avatar in the modal header
+  const avatarEl = document.getElementById('profile-modal-avatar');
+  if (avatarEl) {
+    const initials = (user.displayName || user.email || '?')
+      .split(' ')
+      .map(w => w[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+    avatarEl.textContent = initials;
+  }
+
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function hideProfileModal() {
+  const modal = document.getElementById('profile-complete-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+/**
+ * Checks Firestore for profile completeness.
+ * If key fields are missing, shows the profile completion modal.
+ */
+async function checkProfileAndPrompt(user) {
+  try {
+    const doc = await db.collection('users').doc(user.uid).get();
+    if (doc.exists) {
+      const data = doc.data();
+      // Consider profile "complete" if at least nickname AND area are filled
+      const isComplete = data.nickname && data.nickname.trim() !== ''
+                      && data.area && data.area.trim() !== '';
+      if (isComplete) return; // Profile is already filled — skip
+    }
+    // Document doesn't exist or fields are empty → prompt
+    showProfileModal(user);
+  } catch (error) {
+    console.error('Profile completeness check failed:', error);
+    // Don't block the user if the check fails
+  }
+}
+
+/**
+ * Handles the quick profile form submission from the modal.
+ */
+async function handleQuickProfileSave(e) {
+  e.preventDefault();
+
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const saveBtn = document.getElementById('profile-modal-save');
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+  }
+
+  try {
+    const nickname   = document.getElementById('quick-nickname').value.trim();
+    const phone      = document.getElementById('quick-phone').value.trim();
+    const profession = document.getElementById('quick-profession').value.trim();
+    const area       = document.getElementById('quick-area').value;
+
+    await db.collection('users').doc(user.uid).set({
+      nickname,
+      phone,
+      profession,
+      area,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+
+    hideProfileModal();
+    showProfileToast();
+  } catch (error) {
+    console.error('Quick profile save failed:', error);
+    // Reset button so user can retry
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save & Continue';
+    }
+  }
+}
+
+/**
+ * Shows a brief success toast after saving profile.
+ */
+function showProfileToast() {
+  const toast = document.getElementById('profile-save-toast');
+  if (!toast) return;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
 }
 
 
@@ -191,6 +339,8 @@ async function handleGoogleSignIn() {
 
 async function handleLogout() {
   try {
+    // Clear guest mode so the welcome modal reappears after logout
+    sessionStorage.removeItem('guestMode');
     await auth.signOut();
   } catch (error) {
     // Suppress error in quiet mode
@@ -213,6 +363,11 @@ function initAuthStateObserver() {
 
     if (user) {
       // ── USER IS LOGGED IN ──
+      // Hide welcome modal if it was open
+      hideWelcomeModal();
+      // Clear guest mode since they logged in
+      sessionStorage.removeItem('guestMode');
+
       // Hide login button, show profile
       if (loginBtn)    loginBtn.style.display = 'none';
       if (profileArea) profileArea.style.display = 'flex';
@@ -240,6 +395,11 @@ function initAuthStateObserver() {
       document.querySelectorAll('[data-auth="logged-in"]').forEach(el => el.style.display = '');
       document.querySelectorAll('[data-auth="logged-out"]').forEach(el => el.style.display = 'none');
 
+      // ── CHECK PROFILE COMPLETENESS ──
+      // After login, check if the user's profile is filled.
+      // If not, show the "Complete Your Profile" popup.
+      checkProfileAndPrompt(user);
+
     } else {
       // ── USER IS LOGGED OUT ──
       // Show login button, hide profile
@@ -249,6 +409,9 @@ function initAuthStateObserver() {
       // Hide elements meant for logged-in users
       document.querySelectorAll('[data-auth="logged-in"]').forEach(el => el.style.display = 'none');
       document.querySelectorAll('[data-auth="logged-out"]').forEach(el => el.style.display = '');
+
+      // ── SHOW WELCOME MODAL IF NEEDED ──
+      maybeShowWelcomeModal(null);
     }
   });
 }
@@ -308,6 +471,28 @@ function initAuth() {
 
   // Login button in sidebar
   document.getElementById('sidebar-login-btn')?.addEventListener('click', showAuthModal);
+
+  // ── WELCOME MODAL BUTTONS ──
+  document.getElementById('welcome-login-btn')?.addEventListener('click', () => {
+    hideWelcomeModal();
+    showAuthModal();
+    switchAuthTab('login');
+  });
+
+  document.getElementById('welcome-signup-btn')?.addEventListener('click', () => {
+    hideWelcomeModal();
+    showAuthModal();
+    switchAuthTab('signup');
+  });
+
+  document.getElementById('welcome-guest-btn')?.addEventListener('click', () => {
+    sessionStorage.setItem('guestMode', 'true');
+    hideWelcomeModal();
+  });
+
+  // ── PROFILE COMPLETION MODAL BUTTONS ──
+  document.getElementById('profile-quick-form')?.addEventListener('submit', handleQuickProfileSave);
+  document.getElementById('profile-modal-skip')?.addEventListener('click', hideProfileModal);
 
   // Start listening for auth state changes
   initAuthStateObserver();
